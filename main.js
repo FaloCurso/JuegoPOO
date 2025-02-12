@@ -2,11 +2,13 @@
 class Game {
     constructor() {
         this.container = document.getElementById("game-container");
+        this.puntosElement = document.getElementById("puntos");
         this.personaje = null;
         this.monedas = [];
         this.puntuacion = 0;
         this.anchoContenedor = this.container.clientWidth;
         this.altoContenedor = this.container.clientHeight;
+        this.sonidoMoneda = new Audio('img/sonido.mp3');
         this.crearEscenario();
         this.agregarEventos();
     }
@@ -15,8 +17,8 @@ class Game {
         this.personaje = new Personaje(this.container); // Pasar el contenedor
         this.container.appendChild(this.personaje.element);
         
-        for (let i = 0; i < 5; i++) {
-            const moneda = new Moneda(this.container); // Pasar el contenedor
+        for (let i = 0; i < 10; i++) {
+            const moneda = new Moneda(this.container); 
             this.monedas.push(moneda);
             this.container.appendChild(moneda.element);
         }
@@ -33,10 +35,17 @@ class Game {
                 if (this.personaje.colisionaCon(moneda)) {
                     this.container.removeChild(moneda.element);
                     this.monedas.splice(index, 1);
+                    this.actualizarPuntuacion(10);
+                    this.sonidoMoneda.play(); 
                 }
             });
         }, 100);
     }
+    actualizarPuntuacion(puntos) {
+        this.puntuacion += puntos;
+        this.puntosElement.textContent = `Puntos: ${this.puntuacion}`;
+      }
+    
 }
 
 class Personaje {

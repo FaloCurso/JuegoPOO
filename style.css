@@ -1,8 +1,9 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
+    color:white;
     overflow: hidden;
-    background-color: #b8b8b8;
+    background: url('img/fondo2.png') no-repeat center center fixed;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,9 +16,19 @@ body {
     height: 400px;
     margin: 20px auto;
     border: 10px solid #6d6d6d;
-    background: #fff;
+    /* background: #fff; */
+    background: url('img/fondo1.png') no-repeat center center;
     overflow: hidden;
     border-radius: 30px;
+  }
+  #puntos{
+    color:black;
+    text-align: center;
+    margin: 10px 0;
+    font-size: 22px;
+    font-weight: bold;
+
+
   }
   
   .personaje {
@@ -36,7 +47,7 @@ body {
   
   .moneda {
     position: absolute;
-    width: 32px;
-    height: 33px;
-    background-image: url('img/fantasma1.webp');
+    width: 43px;
+    height: 55px;
+    background-image: url('img/fantasma1.png');
   }
