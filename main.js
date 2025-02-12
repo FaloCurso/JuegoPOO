@@ -3,14 +3,14 @@ class Game {
     constructor() {
         this.container = document.getElementById("game-container");
         this.puntosElement = document.getElementById("puntos");
-        this.monedasGrid = document.getElementById("ListaFantasmas");
+        this.fantasmasGrid = document.getElementById("ListaFantasmas");
         this.reiniciarBtn = document.getElementById("reiniciar-btn");
-        this.personaje = null;
-        this.monedas = [];
+        this.comecoco = null;
+        this.fantasmas = [];
         this.puntuacion = 0;
         this.anchoContenedor = this.container.clientWidth;
         this.altoContenedorGame = this.container.clientHeight;
-        this.sonidoMoneda = new Audio('img/sonido.mp3');
+        this.sonidofantasma = new Audio('img/sonido.mp3');
         this.sonidoFantasmaVerde = new Audio('img/sonidoterminar.mp3');
         this.fantasmaVerde = null;
         this.crearEscenario();
@@ -18,27 +18,27 @@ class Game {
     }
     
     crearEscenario() {   
-        this.personaje = new Personaje(this.container); // Pasar el contenedor
-        this.container.appendChild(this.personaje.element);
+        this.comecoco = new Comecoco(this.container); // Pasar el contenedor
+        this.container.appendChild(this.comecoco.element);
         
         for (let i = 0; i < 7; i++) {
-            const moneda = new Moneda(this.container); 
-            this.monedas.push(moneda);
-            this.container.appendChild(moneda.element);
+            const fantasma = new Fantasma(this.container); 
+            this.fantasmas.push(fantasma);
+            this.container.appendChild(fantasma.element);
         }
-        this.fantasmaVerde = new MonedaEspecial(this.container);
+        this.fantasmaVerde = new FantasmaEspecial(this.container);
         this.container.appendChild(this.fantasmaVerde.element);
 
     }
     
     agregarEventos() {
-        window.addEventListener("keydown", (e) => this.personaje.mover(e));
+        window.addEventListener("keydown", (e) => this.comecoco.mover(e));
         this.chekColisiones();
         this.reiniciarBtn.addEventListener("click", () => this.reiniciarJuego());
-        document.getElementById("rightarrow").addEventListener("click", () => this.personaje.mover({ key: "ArrowRight" }));
-        document.getElementById("leftarrow").addEventListener("click", () => this.personaje.mover({ key: "ArrowLeft" }));
-        document.getElementById("uparrow").addEventListener("click", () => this.personaje.mover({ key: "ArrowUp" }));
-        document.getElementById("downarrow").addEventListener("click", () => this.personaje.mover({ key: "ArrowDown" }));
+        document.getElementById("rightarrow").addEventListener("click", () => this.comecoco.mover({ key: "ArrowRight" }));
+        document.getElementById("leftarrow").addEventListener("click", () => this.comecoco.mover({ key: "ArrowLeft" }));
+        document.getElementById("uparrow").addEventListener("click", () => this.comecoco.mover({ key: "ArrowUp" }));
+        document.getElementById("downarrow").addEventListener("click", () => this.comecoco.mover({ key: "ArrowDown" }));
 
         
         
@@ -46,18 +46,18 @@ class Game {
     
     chekColisiones() {
         setInterval(() => {
-            this.monedas.forEach((moneda, index) => {
-                if (this.personaje.colisionaCon(moneda)) {
-                    this.container.removeChild(moneda.element);
-                    this.monedas.splice(index, 1);
+            this.fantasmas.forEach((fantasma, index) => {
+                if (this.comecoco.colisionaCon(fantasma)) {
+                    this.container.removeChild(fantasma.element);
+                    this.fantasmas.splice(index, 1);
                     this.actualizarPuntuacion(100);
-                    this.sonidoMoneda.play(); 
-                    this.actualizarMatrizMonedas();
+                    this.sonidofantasma.play(); 
+                    this.actualizarMatrizfantasmas();
  
                 }
-                if (this.personaje.colisionaCon(this.fantasmaVerde)) {
+                if (this.comecoco.colisionaCon(this.fantasmaVerde)) {
                     this.container.removeChild(this.fantasmaVerde.element);
-                    this.monedas.splice(index, 1);
+                    this.fantasmas.splice(index, 1);
                     this.actualizarPuntuacion(500);
                     // this.sonidoFantasmaVerde.play(); 
                     // preparar el final
@@ -72,24 +72,24 @@ class Game {
         this.puntuacion += puntos;
         this.puntosElement.textContent = `Puntos: ${this.puntuacion}`;
     }
-    actualizarMatrizMonedas() {
-        const monedaVisual = document.createElement("div");
-        monedaVisual.classList.add("fantasmaCazado");
-        this.monedasGrid.appendChild(monedaVisual);
+    actualizarMatrizfantasmas() {
+        const fantasmaVisual = document.createElement("div");
+        fantasmaVisual.classList.add("fantasmaCazado");
+        this.fantasmasGrid.appendChild(fantasmaVisual);
     }
     reiniciarJuego() {
         this.container.innerHTML = "";
-        this.monedasGrid.innerHTML = "";
+        this.fantasmasGrid.innerHTML = "";
         this.puntuacion = 0;
         this.puntosElement.textContent = "Puntos: 0";
-        this.monedas = [];
+        this.fantasmas = [];
 
         this.crearEscenario();
     }
     
 }
 
-class Personaje {
+class Comecoco {
     constructor(container) {
         this.container = container; // Guardar referencia al contenedor
         this.x = 50;
@@ -102,7 +102,7 @@ class Personaje {
         this.anchoContenedor = this.container.clientWidth; 
         this.altoContenedor = this.container.clientHeight; 
         this.element = document.createElement("div");
-        this.element.classList.add("personaje");
+        this.element.classList.add("comecoco");
         this.imagen = document.createElement("img");
         this.imagen.src = "img/comecocod.png";
         this.element.appendChild(this.imagen);
@@ -160,7 +160,7 @@ class Personaje {
     }
 }
 
-class Moneda {
+class Fantasma {
     constructor(container) {
         this.container = container; // Guardar referencia al contenedor
         this.x = Math.random() * (this.container.clientWidth - 40); 
@@ -168,10 +168,10 @@ class Moneda {
         this.width = 30;
         this.height = 30;
         this.element = document.createElement("div");
-        this.element.classList.add("moneda");
+        this.element.classList.add("fantasma");
         this.actualizarPosicion();
         
-        console.log("Moneda creada en:", this.x, this.y);
+        console.log("fantasma creado en:", this.x, this.y);
     }
     
     actualizarPosicion() {
@@ -179,7 +179,7 @@ class Moneda {
         this.element.style.top = `${this.y}px`;
     }
 }
-class MonedaEspecial {
+class FantasmaEspecial {
     constructor(container) {
         this.container = container;
         this.width = 40;
