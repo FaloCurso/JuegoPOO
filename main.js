@@ -9,7 +9,7 @@ class Game {
         this.monedas = [];
         this.puntuacion = 0;
         this.anchoContenedor = this.container.clientWidth;
-        this.altoContenedor = this.container.clientHeight;
+        this.altoContenedorGame = this.container.clientHeight;
         this.sonidoMoneda = new Audio('img/sonido.mp3');
         this.sonidoFantasmaVerde = new Audio('img/sonidoterminar.mp3');
         this.fantasmaVerde = null;
@@ -21,7 +21,7 @@ class Game {
         this.personaje = new Personaje(this.container); // Pasar el contenedor
         this.container.appendChild(this.personaje.element);
         
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < 7; i++) {
             const moneda = new Moneda(this.container); 
             this.monedas.push(moneda);
             this.container.appendChild(moneda.element);
@@ -35,7 +35,13 @@ class Game {
         window.addEventListener("keydown", (e) => this.personaje.mover(e));
         this.chekColisiones();
         this.reiniciarBtn.addEventListener("click", () => this.reiniciarJuego());
+        document.getElementById("rightarrow").addEventListener("click", () => this.personaje.mover({ key: "ArrowRight" }));
+        document.getElementById("leftarrow").addEventListener("click", () => this.personaje.mover({ key: "ArrowLeft" }));
+        document.getElementById("uparrow").addEventListener("click", () => this.personaje.mover({ key: "ArrowUp" }));
+        document.getElementById("downarrow").addEventListener("click", () => this.personaje.mover({ key: "ArrowDown" }));
 
+        
+        
     }
     
     chekColisiones() {
@@ -53,7 +59,7 @@ class Game {
                     this.container.removeChild(this.fantasmaVerde.element);
                     this.monedas.splice(index, 1);
                     this.actualizarPuntuacion(500);
-                    this.sonidoFantasmaVerde.play(); 
+                    // this.sonidoFantasmaVerde.play(); 
                     // preparar el final
                     
                 }
@@ -92,8 +98,9 @@ class Personaje {
         this.height = 50;
         this.velocidad = 10;
         this.saltando = false;
-        this.ultimaDireccion = 1; // 1: derecha, -1: izquierda 0 caer y 2 subir
-        this.anchoContenedor = this.container.clientWidth; // Obtener el ancho real del contenedor
+        this.ultimaDireccion = 1; // 1: derecha, -1: izquierda 0: subir y 2: bajar
+        this.anchoContenedor = this.container.clientWidth; 
+        this.altoContenedor = this.container.clientHeight; 
         this.element = document.createElement("div");
         this.element.classList.add("personaje");
         this.imagen = document.createElement("img");
@@ -103,16 +110,14 @@ class Personaje {
     }
     
     mover(evento) {
-        if (evento.key === "ArrowRight") { 
-            if (this.x + this.width + this.velocidad <= this.anchoContenedor) {
-                this.x += this.velocidad;
+        if (evento.key === "ArrowRight" && this.x + this.width + this.velocidad <= this.anchoContenedor) { 
+               this.x += this.velocidad;
                if ( this.ultimaDireccion != 1){
                    this.ultimaDireccion = 1;
                    this.imagen.src = "img/comecocod.png"; 
                    this.element.appendChild(this.imagen);
                }
-                
-            }
+            
         } else if (evento.key === "ArrowLeft" && this.x - this.velocidad >= 0) {
             this.x -= this.velocidad;
             if ( this.ultimaDireccion != -1){
@@ -120,7 +125,7 @@ class Personaje {
                 this.imagen.src = "img/comecocoi.png"; 
                 this.element.appendChild(this.imagen);
             }
-        } else if (evento.key === "ArrowUp" ) {
+        } else if (evento.key === "ArrowUp" && this.y - this.velocidad >= 0 ) {
             this.y -= this.velocidad;
             if ( this.ultimaDireccion != 2){
                 this.ultimaDireccion = 2;
@@ -128,52 +133,16 @@ class Personaje {
                 this.element.appendChild(this.imagen);
             }
                  
-            // this.saltar();
-        } else if( evento.key === "ArrowDown"){
+          //bajar  
+        } else if( evento.key === "ArrowDown" && this.y + this.height + this.velocidad <= this.altoContenedor ){
             this.y += this.velocidad;
             if ( this.ultimaDireccion != 0){
                 this.ultimaDireccion = 0;
-                this.imagen.src = "img/comecocoabajo.png"; 
+                this.imagen.src = "img/comecocobajo.png"; 
                 this.element.appendChild(this.imagen);
             }
         }
         this.actualizarPosicion();
-    }
-    
-    saltar() {
-        // this.saltando = true;
-        let alturaMaxima = this.y - 100;
-        this.ultimaDireccion = 0;
-
-        const salto = setInterval(() => {
-            if (this.y > alturaMaxima) {
-                this.y -= 10;
-            } /*else {
-                clearInterval(salto);
-                this.caer(); 
-            }*/
-            this.actualizarPosicion();
-        }, 20);
-        
-    }
-    
-    caer() {
-        const gravedad = setInterval(() => {
-            if (this.y < this.container.clientHeight - 60) { 
-                this.y += 10;
-            } else {
-                clearInterval(gravedad);
-                this.saltando=false;
-            }
-            this.actualizarPosicion();
-        }, 20);
-        if ( this.ultimaDireccion === -1){
-            this.imagen.src = "img/comecocoi.png"; 
-            this.element.appendChild(this.imagen);
-        }else  {
-            this.imagen.src = "img/comecocod.png"; 
-            this.element.appendChild(this.imagen);
-        }
     }
     
     actualizarPosicion() {
@@ -225,7 +194,7 @@ class MonedaEspecial {
         this.element.style.height = `${this.height}px`;
         this.actualizarPosicion();
 
-        setInterval(() => this.reubicar(), 4000);
+        setInterval(() => this.reubicar(), 2000);
     }
 
     actualizarPosicion() {

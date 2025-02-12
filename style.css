@@ -21,25 +21,30 @@ body {
     overflow: hidden;
     border-radius: 30px;
   }
-  #puntos{
-    color:black;
-    text-align: center;
-    margin: 10px 0;
+  #informacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Espacio entre puntos  */
     font-size: 22px;
     font-weight: bold;
-
-
-  }
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin: 10px 0;
+}
+ 
   #ListaFantasmas {
     display: grid;
-    grid-template-columns: repeat(5, 40px); 
+    grid-template-columns: repeat(8, 33px); 
     gap: 5px;
     margin-top: 10px;
 }
 
 .fantasmaCazado {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     background-image: url('img/fantasma3.png');
     background-size: cover;
 }
@@ -72,7 +77,6 @@ body {
     cursor: pointer;
     border-radius: 5px;
     margin: 10px 0;
-    transition: background 0.3s;
 }
 
 #reiniciar-btn:hover {
@@ -81,4 +85,23 @@ body {
 .fantasmaVerde{
   position: absolute;
   background-size: cover;
+}
+.arrow {
+  display: flex;
+  justify-content: center;
+  gap: 10px; 
+  
+}
+
+.arrow button {
+  background-color: #b705f8;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 10px 0;
+  height: 45px;
+}
+.arrow button:hover {
+  background-color: green;
 }
