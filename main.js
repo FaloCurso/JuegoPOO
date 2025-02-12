@@ -3,12 +3,16 @@ class Game {
     constructor() {
         this.container = document.getElementById("game-container");
         this.puntosElement = document.getElementById("puntos");
+        this.monedasGrid = document.getElementById("ListaFantasmas");
+        this.reiniciarBtn = document.getElementById("reiniciar-btn");
         this.personaje = null;
         this.monedas = [];
         this.puntuacion = 0;
         this.anchoContenedor = this.container.clientWidth;
         this.altoContenedor = this.container.clientHeight;
         this.sonidoMoneda = new Audio('img/sonido.mp3');
+        this.sonidoFantasmaVerde = new Audio('img/sonidoterminar.mp3');
+        this.fantasmaVerde = null;
         this.crearEscenario();
         this.agregarEventos();
     }
@@ -17,16 +21,21 @@ class Game {
         this.personaje = new Personaje(this.container); // Pasar el contenedor
         this.container.appendChild(this.personaje.element);
         
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 8; i++) {
             const moneda = new Moneda(this.container); 
             this.monedas.push(moneda);
             this.container.appendChild(moneda.element);
         }
+        this.fantasmaVerde = new MonedaEspecial(this.container);
+        this.container.appendChild(this.fantasmaVerde.element);
+
     }
     
     agregarEventos() {
         window.addEventListener("keydown", (e) => this.personaje.mover(e));
         this.chekColisiones();
+        this.reiniciarBtn.addEventListener("click", () => this.reiniciarJuego());
+
     }
     
     chekColisiones() {
@@ -35,16 +44,42 @@ class Game {
                 if (this.personaje.colisionaCon(moneda)) {
                     this.container.removeChild(moneda.element);
                     this.monedas.splice(index, 1);
-                    this.actualizarPuntuacion(10);
+                    this.actualizarPuntuacion(100);
                     this.sonidoMoneda.play(); 
+                    this.actualizarMatrizMonedas();
+ 
+                }
+                if (this.personaje.colisionaCon(this.fantasmaVerde)) {
+                    this.container.removeChild(this.fantasmaVerde.element);
+                    this.monedas.splice(index, 1);
+                    this.actualizarPuntuacion(500);
+                    this.sonidoFantasmaVerde.play(); 
+                    // preparar el final
+                    
                 }
             });
+            
+
         }, 100);
     }
     actualizarPuntuacion(puntos) {
         this.puntuacion += puntos;
         this.puntosElement.textContent = `Puntos: ${this.puntuacion}`;
-      }
+    }
+    actualizarMatrizMonedas() {
+        const monedaVisual = document.createElement("div");
+        monedaVisual.classList.add("fantasmaCazado");
+        this.monedasGrid.appendChild(monedaVisual);
+    }
+    reiniciarJuego() {
+        this.container.innerHTML = "";
+        this.monedasGrid.innerHTML = "";
+        this.puntuacion = 0;
+        this.puntosElement.textContent = "Puntos: 0";
+        this.monedas = [];
+
+        this.crearEscenario();
+    }
     
 }
 
@@ -57,12 +92,12 @@ class Personaje {
         this.height = 50;
         this.velocidad = 10;
         this.saltando = false;
-        this.ultimaDireccion = 1; // 1: derecha, -1: izquierda 0 caer
+        this.ultimaDireccion = 1; // 1: derecha, -1: izquierda 0 caer y 2 subir
         this.anchoContenedor = this.container.clientWidth; // Obtener el ancho real del contenedor
         this.element = document.createElement("div");
         this.element.classList.add("personaje");
         this.imagen = document.createElement("img");
-        this.imagen.src = "img/comecocod.png"; // Agregamos la imagen
+        this.imagen.src = "img/comecocod.png";
         this.element.appendChild(this.imagen);
         this.actualizarPosicion();
     }
@@ -71,7 +106,7 @@ class Personaje {
         if (evento.key === "ArrowRight") { 
             if (this.x + this.width + this.velocidad <= this.anchoContenedor) {
                 this.x += this.velocidad;
-               if ( this.ultimaDireccion === -1){
+               if ( this.ultimaDireccion != 1){
                    this.ultimaDireccion = 1;
                    this.imagen.src = "img/comecocod.png"; 
                    this.element.appendChild(this.imagen);
@@ -80,30 +115,43 @@ class Personaje {
             }
         } else if (evento.key === "ArrowLeft" && this.x - this.velocidad >= 0) {
             this.x -= this.velocidad;
-            if ( this.ultimaDireccion === 1){
+            if ( this.ultimaDireccion != -1){
                 this.ultimaDireccion = -1;
                 this.imagen.src = "img/comecocoi.png"; 
                 this.element.appendChild(this.imagen);
             }
-        } else if (evento.key === "ArrowUp" && !this.saltando) {
-            this.imagen.src = "img/comecocoa.png"; 
-            this.element.appendChild(this.imagen);
-            // this.ultimaDireccion = 0;
-            this.saltar();
+        } else if (evento.key === "ArrowUp" ) {
+            this.y -= this.velocidad;
+            if ( this.ultimaDireccion != 2){
+                this.ultimaDireccion = 2;
+                this.imagen.src = "img/comecocoa.png"; 
+                this.element.appendChild(this.imagen);
+            }
+                 
+            // this.saltar();
+        } else if( evento.key === "ArrowDown"){
+            this.y += this.velocidad;
+            if ( this.ultimaDireccion != 0){
+                this.ultimaDireccion = 0;
+                this.imagen.src = "img/comecocoabajo.png"; 
+                this.element.appendChild(this.imagen);
+            }
         }
         this.actualizarPosicion();
     }
     
     saltar() {
-        this.saltando = true;
-        let alturaMaxima = this.y - 320;
+        // this.saltando = true;
+        let alturaMaxima = this.y - 100;
+        this.ultimaDireccion = 0;
+
         const salto = setInterval(() => {
             if (this.y > alturaMaxima) {
                 this.y -= 10;
-            } else {
+            } /*else {
                 clearInterval(salto);
-                this.caer();
-            }
+                this.caer(); 
+            }*/
             this.actualizarPosicion();
         }, 20);
         
@@ -162,6 +210,34 @@ class Moneda {
         this.element.style.top = `${this.y}px`;
     }
 }
+class MonedaEspecial {
+    constructor(container) {
+        this.container = container;
+        this.width = 40;
+        this.height = 40;
+        this.x = Math.random() * (this.container.clientWidth - this.width);
+        this.y = Math.random() * (this.container.clientHeight - this.height);
+        
+        this.element = document.createElement("div");
+        this.element.classList.add("fantasmaVerde");
+        this.element.style.backgroundImage = "url('img/fantasma2.png')";
+        this.element.style.width = `${this.width}px`;
+        this.element.style.height = `${this.height}px`;
+        this.actualizarPosicion();
 
+        setInterval(() => this.reubicar(), 4000);
+    }
+
+    actualizarPosicion() {
+        this.element.style.left = `${this.x}px`;
+        this.element.style.top = `${this.y}px`;
+    }
+
+    reubicar() {
+        this.x = Math.random() * (this.container.clientWidth - this.width);
+        this.y = Math.random() * (this.container.clientHeight - this.height);
+        this.actualizarPosicion();
+    }
+}
 // Instanciar el juego
 const juego = new Game();

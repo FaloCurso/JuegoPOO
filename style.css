@@ -30,12 +30,24 @@ body {
 
 
   }
-  
+  #ListaFantasmas {
+    display: grid;
+    grid-template-columns: repeat(5, 40px); 
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.fantasmaCazado {
+    width: 40px;
+    height: 40px;
+    background-image: url('img/fantasma3.png');
+    background-size: cover;
+}
+
   .personaje {
     position: absolute;
     width: 40px;
     height: 40px;
-    /*background-image: url('img/comecocod.png');*/
     background-size: cover;
     transition: transform 0.2s ease-in-out;
     
@@ -51,3 +63,22 @@ body {
     height: 55px;
     background-image: url('img/fantasma1.png');
   }
+  #reiniciar-btn {
+    background-color: #b705f8;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 10px 0;
+    transition: background 0.3s;
+}
+
+#reiniciar-btn:hover {
+    background-color: green;
+}
+.fantasmaVerde{
+  position: absolute;
+  background-size: cover;
+}
