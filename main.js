@@ -10,6 +10,11 @@ class Game {
         this.puntuacion = 0;
         this.sonidofantasma = new Audio('img/sonido.mp3');
         this.sonidoFantasmaVerde = new Audio('img/sonidoterminar.mp3');
+        this.musicaFondo = new Audio('img/sonidoFondo.mp3');
+        this.musicaFondo.loop = true;  // Para que se repita en bucle
+        this.musicaFondo.volume = 0.5;
+        this.musicaFondo.play();
+        
         this.fantasmaVerde = null;
         this.crearEscenario();
         this.agregarEventos();
@@ -32,6 +37,11 @@ class Game {
         window.addEventListener("keydown", (e) => this.comecoco.mover(e));
         this.chekColisiones();
         this.reiniciarBtn.addEventListener("click", () => this.reiniciarJuego());
+        document.getElementById("rightarrow").addEventListener("click", () => this.comecoco.mover({ key: "ArrowRight" }));
+        document.getElementById("leftarrow").addEventListener("click", () => this.comecoco.mover({ key: "ArrowLeft" }));
+        document.getElementById("uparrow").addEventListener("click", () => this.comecoco.mover({ key: "ArrowUp" }));
+        document.getElementById("downarrow").addEventListener("click", () => this.comecoco.mover({ key: "ArrowDown" }));
+
     }
 
     chekColisiones() {
@@ -83,6 +93,8 @@ class Game {
         this.puntosElement.textContent = "Puntos: 0";
         this.fantasmas = [];
         this.crearEscenario();
+        this.musicaFondo.play();
+
     }
 }
 
@@ -203,7 +215,6 @@ class FantasmaEspecial extends Fantasma {
         this.element.style.backgroundImage = "url('img/fantasma2.png')";
         this.element.style.width = `${this.width}px`;
         this.element.style.height = `${this.height}px`;
-        // this.element.style.backgroundImage = "url('img/fantasma2.png')";
         this.reubicar();
         setInterval(() => this.reubicar(), 2000);
     }
