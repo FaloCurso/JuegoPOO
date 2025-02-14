@@ -3,7 +3,7 @@ body {
   font-family: Arial, sans-serif;
   color:white;
   overflow: hidden;
-  background: url('../img/fondo3.webp') no-repeat center center fixed;
+  background: url('./img/fondo3.webp') no-repeat center center fixed;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,7 +16,7 @@ body {
   height: 400px;
   margin: 20px auto;
   border: 10px solid #6d6d6d;
-  background: url('../img/fondo2.webp') no-repeat center center;
+  background: url('./img/fondo2.webp') no-repeat center center;
   overflow: hidden;
   border-radius: 30px;
 }
@@ -44,7 +44,7 @@ body {
 .fantasmaCazado {
   width: 30px;
   height: 30px;
-  background-image: url('../img/fantasma3.png');
+  background-image: url('./img/fantasma3.png');
   background-size: cover;
 }
 
@@ -65,7 +65,7 @@ body {
   position: absolute;
   width: 43px;
   height: 55px;
-  background-image: url('../img/fantasma1.png');
+  background-image: url('./img/fantasma1.png');
 }
 #reiniciar-btn {
   background-color: #b705f8;
