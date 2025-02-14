@@ -99,4 +99,10 @@ El juego cuenta con un diseño personalizado que incluye:
 - Esquema de colores morado y verde
 - Imágenes de fondo personalizadas
 - Animaciones suaves
-- 
+
+#### Clonar
+  https://github.com/FaloCurso/JuegoPOO.git
+#### Contacto
+Falofr@gmail.com
+  
+  
