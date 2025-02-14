@@ -1,107 +1,106 @@
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    color:white;
-    overflow: hidden;
-    background: url('img/fondo3.webp') no-repeat center center fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column;
-  }
-  #game-container {
-    position: relative;
-    width: 800px;
-    height: 400px;
-    margin: 20px auto;
-    border: 10px solid #6d6d6d;
-    /* background: #fff; */
-    background: url('img/fondo2.webp') no-repeat center center;
-    overflow: hidden;
-    border-radius: 30px;
-  }
-  #informacion {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px; 
-    font-size: 22px;
-    font-weight: bold;
-    background-color: white;
-    color: black;
-    border-radius: 10px;
-    padding: 10px 20px;
-    margin: 10px 0;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color:white;
+  overflow: hidden;
+  background: url('../img/fondo3.webp') no-repeat center center fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
 }
- 
-  #ListaFantasmas {
-    display: grid;
-    grid-template-columns: repeat(8, 33px); 
-    gap: 5px;
-    margin-top: 10px;
+#game-container {
+  position: relative;
+  width: 800px;
+  height: 400px;
+  margin: 20px auto;
+  border: 10px solid #6d6d6d;
+  background: url('../img/fondo2.webp') no-repeat center center;
+  overflow: hidden;
+  border-radius: 30px;
+}
+#informacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; 
+  font-size: 22px;
+  font-weight: bold;
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  padding: 10px 20px;
+  margin: 10px 0;
+}
+
+#ListaFantasmas {
+  display: grid;
+  grid-template-columns: repeat(8, 45px); 
+  gap: 5px;
+  margin-top: 10px;
 }
 
 .fantasmaCazado {
-    width: 30px;
-    height: 30px;
-    background-image: url('img/fantasma3.webp');
-    background-size: cover;
-}
-
-  .comecoco {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    background-size: cover;
-    transition: transform 0.2s ease-in-out;
-    
-  }
-  .comecoco img {
-    width: 40px;
-    height: 40px;
-}
-  
-  .fantasma {
-    position: absolute;
-    width: 43px;
-    height: 55px;
-    background-image: url('img/fantasma1.png');
-  }
-  #reiniciar-btn {
-    background-color: #b705f8;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 18px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin: 10px 0;
-}
-
-#reiniciar-btn:hover {
-    background-color: green;
-}
-.fantasmaVerde{
-  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-image: url('../img/fantasma3.png');
   background-size: cover;
 }
-.arrow {
-  display: flex;
-  justify-content: center;
-  gap: 10px; 
+
+.comecoco {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+  transition: transform 0.2s ease-in-out;
   
 }
+.comecoco img {
+  width: 40px;
+  height: 40px;
+}
 
-.arrow button {
+.fantasma {
+  position: absolute;
+  width: 43px;
+  height: 55px;
+  background-image: url('../img/fantasma1.png');
+}
+#reiniciar-btn {
   background-color: #b705f8;
   color: white;
+  border: none;
   padding: 10px 20px;
+  font-size: 18px;
   cursor: pointer;
   border-radius: 5px;
   margin: 10px 0;
-  height: 45px;
+}
+
+#reiniciar-btn:hover {
+  background-color: green;
+}
+.fantasmaVerde{
+position: absolute;
+background-size: cover;
+}
+.arrow {
+display: flex;
+justify-content: center;
+gap: 10px; 
+
+}
+
+.arrow button {
+background-color: #b705f8;
+color: white;
+padding: 10px 20px;
+cursor: pointer;
+border-radius: 5px;
+margin: 10px 0;
+height: 45px;
 }
 .arrow button:hover {
-  background-color: green;
+background-color: green;
 }
