@@ -1,5 +1,5 @@
 # 👾 Aventuras POO - Juego estilo Pac-Man
-
+![](/media/img/presentacion.png)
 ¡Bienvenido a Aventuras POO, un emocionante juego basado en navegador que combina la mecánica clásica de Pac-Man con la caza de fantasmas! Este proyecto demuestra los principios de Programación Orientada a Objetos (POO) en JavaScript.
 
 ## 🎮 Características del Juego
